@@ -1,7 +1,10 @@
 package ar.com.cdt.classroom;
 
+import ar.com.cdt.classroom.service.IAlumnoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +16,10 @@ public class ClassroomApplication implements CommandLineRunner{
     //Defino el log:
     private static Logger LOG = LoggerFactory.getLogger(ClassroomApplication.class);
     
+    @Autowired
+    @Qualifier("ServiceImplementation2")
+    IAlumnoService service;
+        
         //Metodo principal de la app
 	public static void main(String[] args) {
 		SpringApplication.run(ClassroomApplication.class, args);
@@ -25,7 +32,11 @@ public class ClassroomApplication implements CommandLineRunner{
         LOG.warn("WARN");
         LOG.error("ERROR");
         //Depende el IDE se ven en diferentes colores, pero aca no...
+        
+        service.registrar("Alberto Daniel Ranno");
     }
+    
+    
     
 
 }
