@@ -17,7 +17,7 @@ public class ClassroomApplication implements CommandLineRunner{
     private static Logger LOG = LoggerFactory.getLogger(ClassroomApplication.class);
     
     @Autowired
-    @Qualifier("ServiceImplementation2")
+    @Qualifier("ServiceImplementation1")
     IAlumnoService service;
         
         //Metodo principal de la app

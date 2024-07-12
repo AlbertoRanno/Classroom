@@ -8,22 +8,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ar.com.cdt.classroom.repository.IAlumnoCustom;
+import ar.com.cdt.classroom.repository.IAlumnoRepository;
 import java.util.List;
 
 @Service
-@Qualifier("ServiceImplementation2")
-public class AlumnoServiceImpl2 implements IAlumnoService{
+@Qualifier("ServiceImplementation3")
+public class AlumnoServiceImpl3 implements IAlumnoService{
 
     private static Logger LOG = LoggerFactory.getLogger(ClassroomApplication.class);
     
     @Autowired
     @Qualifier("CustomImplementation2")
-    IAlumnoCustom repo;
+    IAlumnoCustom repoCustom;
+    
+    @Autowired
+    IAlumnoRepository repo;
     
     @Override
     public void registrar(String nombreAlumno) {
-        repo.registrar(nombreAlumno);
-        LOG.info("Se usó la ServiceImplementation2");
+        repoCustom.registrar(nombreAlumno);
+        LOG.info("Se usó la ServiceImplementation3");
     }
 
     @Override
@@ -33,7 +37,7 @@ public class AlumnoServiceImpl2 implements IAlumnoService{
 
     @Override
     public void guardar(Alumno alumno) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        repo.save(alumno);
     }
 
     @Override
@@ -45,5 +49,7 @@ public class AlumnoServiceImpl2 implements IAlumnoService{
     public Alumno encontrarPersona(Alumno alumno) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    
     
 }

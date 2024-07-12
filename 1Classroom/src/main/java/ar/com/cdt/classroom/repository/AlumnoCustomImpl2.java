@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Qualifier("RepositoryImplementation1")
-public class AlumnoRepositoryImpl1 implements IAlumnoRepository{
+@Qualifier("CustomImplementation2")
+public class AlumnoCustomImpl2 implements IAlumnoCustom{
 
     private static Logger LOG = LoggerFactory.getLogger(ClassroomApplication.class);
     
     @Override
-    public void registrar(String name) {
-        LOG.info("Se registró al alumno " + name + "mediante la RepositoryImplementation1");
+    public void registrar(String nombreAlumno) {
+        LOG.info("Se registró al alumno " + nombreAlumno + " mediante la CustomImplementation2");
     }
     
 }

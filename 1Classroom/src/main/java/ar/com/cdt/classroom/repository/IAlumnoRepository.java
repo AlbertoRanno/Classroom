@@ -1,7 +1,8 @@
 package ar.com.cdt.classroom.repository;
 
-public interface IAlumnoRepository {
-    
-    public void registrar(String name);
+import ar.com.cdt.classroom.model.Alumno;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface IAlumnoRepository extends JpaRepository<Alumno, Integer> {
     
 }
