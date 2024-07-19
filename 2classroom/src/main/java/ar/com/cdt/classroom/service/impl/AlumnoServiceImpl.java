@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-@Service //Lo llevan las implementaciones, no las interfaces
+@Service
 @Qualifier("ServiceImplementationCRUD")
 public class AlumnoServiceImpl implements IAlumnoService {
 
@@ -31,15 +31,11 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
     @Override
     public ResponseEntity<String> modificarAlumno(Integer id, Alumno alumno) {
-        // Verifico si el alumno existe.
         if (repo.existsById(id)) {
-            alumno.setIdAlumno(id); // Asigna el ID proporcionado en la URL al objeto Alumno que se recibe en el cuerpo de la solicitud,
-            // lo que garantiza que se esté actualizando el alumno correcto.
-            repo.save(alumno); // Se usa el mismo método save, porque si lo encuentra, lo sobreescribe por completo (PUT).
-            // Sin el condicional, si no encuentra el ID, lo grabaría con ID 0 u otro.
+            alumno.setIdAlumno(id); 
+            repo.save(alumno); 
             return new ResponseEntity<>("Alumno modificado exitosamente", HttpStatus.OK);
         } else {
-            // Devuelve una respuesta 404 Not Found / HttpStatus.NOT_FOUND (404): El recurso solicitado no se ha encontrado.
             return new ResponseEntity<>("Alumno no encontrado", HttpStatus.NOT_FOUND);
         }
     }
@@ -50,9 +46,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
             repo.deleteById(id);
             return new ResponseEntity<>("Alumno eliminado existosamente", HttpStatus.OK);
         } else {
-            // Devuelve una respuesta 404 Not Found / HttpStatus.NOT_FOUND (404): El recurso solicitado no se ha encontrado.
             return new ResponseEntity<>("Alumno no encontrado", HttpStatus.NOT_FOUND);
         }
     }
-
 }

@@ -35,8 +35,4 @@ public class ClassroomApplication implements CommandLineRunner{
         
         service.registrar("Alberto Daniel Ranno");
     }
-    
-    
-    
-
 }
