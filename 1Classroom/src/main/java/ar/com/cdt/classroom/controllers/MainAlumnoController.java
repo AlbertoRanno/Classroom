@@ -16,25 +16,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+// Los métodos de esta clase manejarán solicitudes HTTP y devolverán respuestas directamente en formato JSON (por ser RestController).
 @RequestMapping("/api/alumnos")
-/* Define el prefijo común para todas las rutas. Se podrían aclarar en cada caso rutas individuales, pero si son los verbos tradicionales
-y el codigo no es muy largo, es buena practica que apunten todos a la misma url, por distintos verbos. Si se hiciera muy grande,
-se podria separar en varios controladores de ser necesario. */
+// Define el prefijo común para todas las rutas. Se podrían aclarar en cada caso rutas individuales, pero si son los verbos tradicionales
+// y el código no es muy largo, es buena práctica que apunten todos a la misma URL por distintos verbos. Si se hiciera muy grande,
+// se podría separar en varios controladores de ser necesario.
 public class MainAlumnoController {
+    // Esta clase contendrá métodos que responderán a solicitudes HTTP (Por ser metodos de un controlador).
 
     @Autowired
     IAlumnoRepository repo;
 
-    //@GetMapping("/api/get") - evito el /api/ inicial en todas, con el RequestMapping
-    //@GetMapping("/get") - evito el /get ingresando por todas las request, a la misma ruta /api, pero por distintos verbos
+    /* @RequestMapping(method = RequestMethod.GET, path = "/api/get") La anotación mapea solicitudes HTTP a métodos específicos
+       Pero es nomenclatura vieja. Se incluyó en Spring y se simplificó a: @Get / Post / Put ... Mapping("/nombreRuta").
+       @GetMapping("/api/get") - Evito el /api/ inicial en todas con el RequestMapping.
+       @GetMapping("/get") - Evito el /get ingresando por todas las requests a la misma ruta /api, pero por distintos verbos.
+    */
     @GetMapping
-    public ResponseEntity<List<Alumno>> listarAlumnos() { //Es el unico caso que no envio un String, porque envio el listado
+    public ResponseEntity<List<Alumno>> listarAlumnos() { // Es el único caso que no envío un String, porque envío el listado.
         List<Alumno> alumnos = repo.findAll();
         // Devuelve una respuesta 200 OK / HttpStatus.OK (200): La solicitud ha tenido éxito.
         return ResponseEntity.ok(alumnos); 
     }
+    /* ResponseEntity: Se utiliza cuando se quiere un control explícito sobre el estado HTTP, los encabezados y el cuerpo de la respuesta.
+            Spring Boot se encarga de establecer el estado HTTP a 200 OK y convertir el objeto en el cuerpo de la respuesta.
+            @GetMapping("/custom")
+            public ResponseEntity<String> customResponse() {
+                return ResponseEntity.status(HttpStatus.CREATED)
+                                     .header("Custom-Header", "CustomValue")
+                                     .body("Custom response body");
+            }
+       De no necesitar eso, se puede utilizar una devolución directa de un objeto: Es más sencillo y se utiliza cuando no se requiere
+       personalizar la respuesta HTTP. 
+            @GetMapping("/alumnos")
+            public List<Alumno> listarAlumnos() {
+                return repo.findAll();
+            }
+    */
 
-    //@PostMapping("/post")
     @PostMapping
     public ResponseEntity<String> insertarAlumno(@RequestBody Alumno alumno) {
         // Devuelve una respuesta 201 Created / HttpStatus.CREATED (201): La solicitud ha tenido éxito y se ha creado un nuevo recurso.
@@ -42,18 +61,17 @@ public class MainAlumnoController {
         return new ResponseEntity<>("Alumno ingresado exitosamente", HttpStatus.CREATED);
     }
 
-    //@PutMapping("/put")
     @PutMapping("/{id}")
     public ResponseEntity<String> modificarAlumno(@PathVariable("id") Integer id, @RequestBody Alumno alumno) {
-        //Verifico si el alumno existe
+        // Verifico si el alumno existe.
         if (repo.existsById(id)) {
-            alumno.setIdAlumno(id); /*(*)*/
-            //signa el ID proporcionado en la URL al objeto Alumno que se recibe en el cuerpo de la solicitud
-            repo.save(alumno); //Se usa el mismo metodo save, porque si lo encuentra, lo sobreescribe por completo (PUT).
-            //Y si no tuviera el condicional, y no encuentra el ID, lo grabaria con ID 0 u otro
+            alumno.setIdAlumno(id); // Asigna el ID proporcionado en la URL al objeto Alumno que se recibe en el cuerpo de la solicitud,
+            // lo que garantiza que se esté actualizando el alumno correcto.
+            repo.save(alumno); // Se usa el mismo método save, porque si lo encuentra, lo sobreescribe por completo (PUT).
+            // Sin el condicional, si no encuentra el ID, lo grabaría con ID 0 u otro.
             return new ResponseEntity<>("Alumno modificado exitosamente", HttpStatus.OK);
         } else {
-            // Devuelve una respuesta 204 No Content / HttpStatus.NO_CONTENT (204): La solicitud ha tenido éxito pero no hay contenido que devolver.
+            // Devuelve una respuesta 404 Not Found / HttpStatus.NOT_FOUND (404): El recurso solicitado no se ha encontrado.
             return new ResponseEntity<>("Alumno no encontrado", HttpStatus.NOT_FOUND);
         }
     }
@@ -69,14 +87,3 @@ public class MainAlumnoController {
         }
     }
 }
-
-/*(*)
-alumno.setIdAlumno(id); asigna el ID proporcionado en la URL (@PathVariable("id") Integer id) al objeto Alumno que se recibe
-en el cuerpo de la solicitud (@RequestBody Alumno alumno).
-Esto garantiza que el objeto alumno que se está guardando tiene el ID correcto, correspondiente al registro existente 
-que se desea actualizar.
-
-Persistencia en la base de datos:
-Al llamar a repo.save(alumno);, Spring Data JPA verificará si el objeto tiene un ID asignado.
-Si el ID ya existe en la base de datos, Spring Data JPA actualizará el registro existente.
-Si el ID no existe (por ejemplo, si es un nuevo objeto sin ID), Spring Data JPA creará un nuevo registro.*/
