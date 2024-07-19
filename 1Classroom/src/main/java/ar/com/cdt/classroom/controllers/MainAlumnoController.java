@@ -2,6 +2,7 @@ package ar.com.cdt.classroom.controllers;
 
 import ar.com.cdt.classroom.model.Alumno;
 import ar.com.cdt.classroom.repository.IAlumnoRepository;
+import ar.com.cdt.classroom.service.IAlumnoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,9 @@ public class MainAlumnoController {
 
     @Autowired
     IAlumnoRepository repo;
+    
+    //@Autowired
+    //IAlumnoService service;
 
     /* @RequestMapping(method = RequestMethod.GET, path = "/api/get") La anotación mapea solicitudes HTTP a métodos específicos
        Pero es nomenclatura vieja. Se incluyó en Spring y se simplificó a: @Get / Post / Put ... Mapping("/nombreRuta").
@@ -87,3 +91,36 @@ public class MainAlumnoController {
         }
     }
 }
+
+/* Ejemplo de buena práctica estructura: 
+notar que las impl van en un sub-paquete. 
+Recordar que @Service, va en las implementaciones pero no en las interfaces (porque podrian ser interfaces no solo de servicios)
+
+
+src/main/java/com/tuempresa/proyecto/
+│
+├── controller/          # Paquete para los controladores
+│   ├── AlumnoController.java
+│   └── OtroController.java
+│
+├── model/               # Paquete para las entidades de datos
+│   ├── Alumno.java
+│   └── OtroModelo.java
+│
+├── repository/          # Paquete para los repositorios de datos
+│   ├── AlumnoRepository.java
+│   └── OtroRepository.java
+│
+├── service/             # Paquete para las interfaces de servicio
+│   ├── AlumnoService.java
+│   └── OtroService.java
+│
+├── service/impl/        # Paquete para las implementaciones de servicio
+│   ├── AlumnoServiceImpl.java
+│   └── OtroServiceImpl.java
+│
+└── application/         # Paquete para la configuración y clases principales de la aplicación
+    ├── Application.java
+    └── AnotherConfig.java
+
+*/

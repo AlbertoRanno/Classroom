@@ -1,5 +1,6 @@
-package ar.com.cdt.classroom.repository;
+package ar.com.cdt.classroom.repositorycustom.impl;
 
+import ar.com.cdt.classroom.repositorycustom.IAlumnoCustom;
 import ar.com.cdt.classroom.ClassroomApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

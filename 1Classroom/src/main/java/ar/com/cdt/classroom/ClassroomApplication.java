@@ -1,6 +1,5 @@
 package ar.com.cdt.classroom;
 
-import ar.com.cdt.classroom.service.IAlumnoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ar.com.cdt.classroom.servicecustom.IAlumnoCustomService;
 
 @SpringBootApplication
 public class ClassroomApplication implements CommandLineRunner{
@@ -17,8 +17,8 @@ public class ClassroomApplication implements CommandLineRunner{
     private static Logger LOG = LoggerFactory.getLogger(ClassroomApplication.class);
     
     @Autowired
-    @Qualifier("ServiceImplementation1")
-    IAlumnoService service;
+    @Qualifier("ServiceImplementation3")
+    IAlumnoCustomService service;
         
         //Metodo principal de la app
 	public static void main(String[] args) {

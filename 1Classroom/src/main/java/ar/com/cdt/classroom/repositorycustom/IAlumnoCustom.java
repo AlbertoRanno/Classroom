@@ -1,4 +1,4 @@
-package ar.com.cdt.classroom.repository;
+package ar.com.cdt.classroom.repositorycustom;
 
 public interface IAlumnoCustom {
     
