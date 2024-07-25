@@ -12,9 +12,9 @@
     </parent>
 
     <groupId>ar.com.cdt</groupId>
-    <artifactId>2classroom</artifactId>
+    <artifactId>2classroom-distribucionResponsabilidades</artifactId>
     <version>1</version>
-    <name>2classroom</name>
+    <name>2classroom-distribucionResponsabilidades</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
