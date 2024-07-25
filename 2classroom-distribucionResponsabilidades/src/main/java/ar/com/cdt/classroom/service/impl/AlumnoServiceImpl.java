@@ -1,5 +1,6 @@
 package ar.com.cdt.classroom.service.impl;
 
+import ar.com.cdt.classroom.exceptions.ResourceNotFoundException;
 import ar.com.cdt.classroom.model.Alumno;
 import ar.com.cdt.classroom.repository.IAlumnoRepository;
 import ar.com.cdt.classroom.service.IAlumnoService;
@@ -34,9 +35,11 @@ public class AlumnoServiceImpl implements IAlumnoService {
             return true;
         } else {
             return false;
+           //throw new ResourceNotFoundException("Alumno no encontrado -Impl");
+           // si no estuviera comentada la excepción, la misma corta el flujo de la app, y arroja el msj de error a postman
         }
     }
-
+    
     @Override
     public boolean eliminarAlumno(Integer id) {
         if (repo.existsById(id)) {

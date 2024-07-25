@@ -38,7 +38,7 @@ public class MainAlumnoController {
         if (service.modificarAlumno(id, alumno)) {
             return new ResponseEntity<>("Alumno modificado exitosamente", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Alumno no encontrado", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Alumno no encontrado -Controler", HttpStatus.NOT_FOUND);
         }
     }
 
