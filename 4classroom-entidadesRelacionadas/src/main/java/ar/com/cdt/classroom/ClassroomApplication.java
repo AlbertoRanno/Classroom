@@ -29,7 +29,10 @@ public class ClassroomApplication implements CommandLineRunner {
     "nombreAlumno":"Ezeq",
     "apellidoAlumno":"Ranno",
     "telefonoAlumno": "4499-266",
-    "emailAlumno":"aranno.mail.com"
+    "emailAlumno":"aranno.mail.com",
+    "profesor": {
+          "idProfesor": 1
+      }
 }
 
 {
