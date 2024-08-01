@@ -44,4 +44,12 @@ public class ClassroomApplication implements CommandLineRunner {
     "antiguedadProfesor": 30
 }
 
+{
+    "nombreCurso": "Física III",
+    "descripcion": "Curso avanzado de física",
+    "profesor": {
+        "idProfesor": 1
+    }
+}
+
 */
