@@ -17,6 +17,11 @@ import lombok.Data;
 @Data
 @Table(name = "Alumno")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idAlumno")
+/*
+Esto le dice a Jackson que cuando serialice un objeto de tipo Alumno, debe usar el valor de idAlumno
+como identificador único. Si Jackson encuentra otra referencia al mismo Alumno en el mismo contexto de serialización,
+en lugar de serializar todos los detalles del Alumno de nuevo, solo incluirá el identificador.
+*/
 public class Alumno {
 
     @Id

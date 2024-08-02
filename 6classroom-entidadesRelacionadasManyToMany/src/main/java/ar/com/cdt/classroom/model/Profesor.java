@@ -45,20 +45,8 @@ public class Profesor {
     @OneToOne(mappedBy = "profesor", optional = true)
     private Alumno alumno;
     
-    /*Un profesor, puede dar varios cursos (pero cada curso solo puede ser dado por un profesor) 
-    (mappedBy = "profesor"): Indica que la relación está mapeada por la propiedad profesor en la clase Curso.
-    cascade = CascadeType.ALL: Propaga todas las operaciones (persistencia, eliminación, etc.) del profesor a sus cursos.
-    Significa que cualquier operación que se realice en la entidad Profesor (como guardar, modificar, eliminar, etc.) se
-    propaga automáticamente a las entidades Curso que están relacionadas.
-    guardar: Si guardao un Profesor, todos los Curso relacionados se guardarán automáticamente.
-    eliminar: Si elimino un Profesor, todos los Curso relacionados se eliminarán también.
-    modificar: Si actualizo un Profesor, todos los Curso relacionados se actualizarán.
-    orphanRemoval = true: si modifico por ejemplo el registro de un profesor, y elimino un curso que da, ese curso,
-    en lugar de quedar sin profesor, es eliminado de la tabla de curso. Si no estuviera esto, el curso, en ese caso, 
-    quedaría sin profesor asignado. Por lo tanto, puede ser útil o no depende el caso...
-    @OneToMany: Especifica una relación donde una entidad puede tener muchas entidades asociadas en otra tabla. 
-    Se usa típicamente en el lado "uno".*/
     @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    //@JsonManagedReference
+    //@JsonBackReference
     private List<Curso> cursos;
 }
