@@ -12,4 +12,8 @@ public interface IAlumnoService {
     boolean modificarAlumno(Integer id, Alumno alumno);
 
     boolean eliminarAlumno(Integer id);
+
+    Alumno findByNombre(String nombreAlumno);
+
+    List<Alumno> findByProfesorIsNull();
 }

@@ -34,7 +34,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
             repo.save(alumno);
             return true;
         } else {
-             return false;
+            return false;
             // throw new ResourceNotFoundException("Alumno no encontrado -Impl");
         }
     }
@@ -48,5 +48,17 @@ public class AlumnoServiceImpl implements IAlumnoService {
             return false;
             //throw new ResourceNotFoundException("Alumno no encontrado -Impl");
         }
+    }
+
+    @Override
+    public Alumno findByNombre(String nombreAlumno) {
+        Alumno alumnoBuscado = repo.findByNombreAlumno(nombreAlumno);
+        return alumnoBuscado;
+    }
+
+    @Override
+    public List<Alumno> findByProfesorIsNull() {
+        List<Alumno> alumnosSinProfe = repo.findByProfesorIsNull();
+        return alumnosSinProfe;
     }
 }
