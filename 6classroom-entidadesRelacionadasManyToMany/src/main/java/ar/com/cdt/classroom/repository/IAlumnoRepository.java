@@ -6,6 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+/* Cuando hay métodos que involucran más de una entidad (como agregar un curso a un alumno), es importante organizar el código de manera que siga
+    principios de buena arquitectura:
+    *    Repositorio: Los métodos en los repositorios (interfaces que extienden JpaRepository) se encargan de operaciones básicas de persistencia (CRUD) 
+    y consultas personalizadas. No es usual colocar lógica compleja o cruzada aquí.
+    *    Servicio (Implementación del Servicio): Es el lugar adecuado para colocar la lógica que involucra más de una entidad o repositorio.
+    En el caso del ejemplo de agregar un curso a un alumno, este método debería ir en la implementación del servicio de Alumno o Curso, o en ambos.
+    Servicio de Alumno: Aquí podría tener métodos como agregarCursoAAlumno.
+    Servicio de Curso: Aquí podría tener un método como agregarAlumnoACurso.
+    *    Servicio (Interfaz): Si el método es general, importante, lo sumo a la interfaz para asegurarme de que todas las implementaciones cuenten con él.
+    Pero si es muy específico o sólo se usa en un contexto particular, puedo optar por dejarlo únicamente en la implementación del servicio.
+    *    Controlador: Aquí defino los endpoints que llaman a los métodos del servicio. Es donde se maneja la interacción con el cliente (p.ej., Postman). */
+
 public interface IAlumnoRepository extends JpaRepository<Alumno, Integer> {
 
     // Métodos basados en convenciones de nombres de JPA
@@ -96,11 +108,10 @@ Conclusión:  Ambos métodos logran lo mismo, pero con enfoques diferentes. El p
     mientras que el segundo da más control y flexibilidad sobre la consulta. Usar @Query es útil cuando se necesita
     hacer consultas más complejas que no pueden ser expresadas simplemente con nombres de métodos.
 
+Avances:
     *ResponseEntity: forma general para manejar estados, headers y body en todos los casos de la misma forma
-    *Como crear un metodo, distinto, a los que ofrece JpaRepository. Y sus dos opciones
+    *Como crear un metodo, distinto, a los que ofrece JpaRepository. Y sus dos opciones, por nomenclatura y por la anotación Query
     
-    Listas ordenadas u otro metodo en particular
-    @Query
     muchos a muchos
     transacciones
     swagger

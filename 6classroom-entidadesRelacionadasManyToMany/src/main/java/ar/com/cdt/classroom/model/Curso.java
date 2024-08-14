@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 
 @Entity
@@ -29,5 +31,7 @@ public class Curso {
     //@JsonBackReference
     //@JsonManagedReference
     private Profesor profesor;
-}
 
+    @ManyToMany(mappedBy = "cursos")
+    private List<Alumno> alumnos = new ArrayList<>();
+}
