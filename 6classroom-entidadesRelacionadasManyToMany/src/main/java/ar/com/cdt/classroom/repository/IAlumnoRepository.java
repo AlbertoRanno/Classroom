@@ -21,7 +21,22 @@ public interface IAlumnoRepository extends JpaRepository<Alumno, Integer> {
 
     // Método equivalente usando @Query
     @Query("SELECT a FROM Alumno a WHERE a.nombreAlumno = :nombre")
-    Alumno buscarPorNombre(@Param("nombre") String nombreAlumno);
+    Alumno buscarAlumnoPorNombre(@Param("nombre") String nombreAlumno);
+    /* Qué hacen las anotaciones @Query y @Param:
+    La anotación @Query se usa para definir una consulta personalizada en JPQL (Java Persistence Query Language). JPQL es un lenguaje de consulta orientado a entidades en Java,
+    similar a SQL, pero diseñado para trabajar con las entidades de la aplicación en lugar de directamente con las tablas de la base de datos.
+    "SELECT a FROM Alumno a WHERE a.nombreAlumno = " Esta es la consulta que se ejecuta.
+    SELECT a FROM Alumno a: Esto significa que estamos seleccionando (SELECT) la entidad Alumno (representada por a) desde la tabla asociada a esta entidad.
+    WHERE a.nombreAlumno = :nombre: Aquí se especifica una condición (WHERE) para filtrar los resultados. Solo se seleccionarán aquellos alumnos cuyo nombreAlumno coincida 
+    con el valor del parámetro :nombre.
+
+    La anotación @Param se usa para vincular un parámetro del método a un parámetro en la consulta JPQL definida en @Query.
+    @Param("nombre"): Mapea el parámetro del método nombreAlumno al parámetro :nombre en la consulta JPQL.
+    String nombreAlumno: Es el parámetro que se pasa al método desde el código que lo llama.
+    
+    Funcionamiento:
+    Cuando llamo al método buscarAlumnoPorNombre("Juan"), el valor "Juan" se pasa como nombreAlumno.
+    @Param("nombre") vincula este valor al parámetro :nombre en la consulta JPQL, que se traduce a WHERE a.nombreAlumno = 'Juan'.    */
 }
 
 /* 

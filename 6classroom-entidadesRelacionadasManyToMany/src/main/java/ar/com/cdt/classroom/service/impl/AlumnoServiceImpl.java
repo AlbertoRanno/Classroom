@@ -61,4 +61,10 @@ public class AlumnoServiceImpl implements IAlumnoService {
         List<Alumno> alumnosSinProfe = repo.findByProfesorIsNull();
         return alumnosSinProfe;
     }
+
+    @Override
+    public Alumno buscarAlumnoPorNombre(String nombreAlumno) {
+        Alumno alumnoBuscado = repo.buscarAlumnoPorNombre(nombreAlumno);
+        return alumnoBuscado;
+    }
 }

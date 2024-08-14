@@ -16,4 +16,6 @@ public interface IAlumnoService {
     Alumno findByNombre(String nombreAlumno);
 
     List<Alumno> findByProfesorIsNull();
+    
+    Alumno buscarAlumnoPorNombre(String nombreAlumno);
 }

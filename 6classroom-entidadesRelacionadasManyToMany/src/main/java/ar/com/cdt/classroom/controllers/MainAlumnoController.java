@@ -70,7 +70,7 @@ public class MainAlumnoController {
     }
 
     @GetMapping("/{nombreAlumno}")
-    public ResponseEntity<?> buscarAlumnoPorNombre(@PathVariable("nombreAlumno") String nombreAlumno) {
+    public ResponseEntity<?> findByNombre(@PathVariable("nombreAlumno") String nombreAlumno) {
         /* Importante! ResponseEntity<?>: El ? indica que el tipo de retorno puede ser cualquier cosa,
          lo que te permite devolver tanto un Alumno como un String.*/
         Alumno alumnoBuscado = service.findByNombre(nombreAlumno);
@@ -92,6 +92,20 @@ public class MainAlumnoController {
             return ResponseEntity.status(HttpStatus.OK).header("Custom-Header", "CustomValue").body(alumnosSinProfe);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Custom-Header", "CustomValue").body("Todos los alumnos tienen profesor asignado");
+        }
+    }
+    
+    @GetMapping("/query/{nombreAlumno}")
+    public ResponseEntity<?> buscarAlumnoPorNombre(@PathVariable("nombreAlumno") String nombreAlumno) {
+        Alumno alumnoBuscado = service.buscarAlumnoPorNombre(nombreAlumno);
+        if (alumnoBuscado != null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header("Custom-Header", "CustomValue")
+                    .body(alumnoBuscado);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .header("Custom-Header", "CustomValue")
+                    .body("Alumno con ese nombre no encontrado");
         }
     }
 }
