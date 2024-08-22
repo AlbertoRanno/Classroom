@@ -55,13 +55,13 @@ public class Profesor {
     */
     
     @OneToOne(mappedBy = "profesor", optional = true)
-    @JsonBackReference
+    @JsonBackReference("alumno-profesor")
     private Alumno alumno;
     
     
     @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
     //@JsonManagedReference
-    @JsonBackReference
+    @JsonBackReference("profesor-curso")
     private List<Curso> cursos;
     
 }

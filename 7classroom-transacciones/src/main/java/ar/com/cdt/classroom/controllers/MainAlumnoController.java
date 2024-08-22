@@ -19,78 +19,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-// Los métodos de esta clase manejarán solicitudes HTTP y devolverán respuestas directamente en formato JSON (por ser RestController).
-@RequestMapping("/api/alumnos") //Es Request (pedido) Mapping => GetMapping es para el verbo, acordate! 
-// Define el prefijo común para todas las rutas. Se podrían aclarar en cada caso rutas individuales, pero si son los verbos tradicionales
-// y el código no es muy largo, es buena práctica que apunten todos a la misma URL por distintos verbos. Si se hiciera muy grande,
-// se podría separar en varios controladores de ser necesario.
+@RequestMapping("/api/alumnos")
 public class MainAlumnoController {
-    // Esta clase contendrá métodos que responderán a solicitudes HTTP (Por ser metodos de un controlador).
 
     @Autowired
-    //Acá se conecta con la interfaz, de modo de poder swichear implementaciones falcilmente. Es altamente desacoplable.
-    //@Qualifier("ServiceImplementation1") De tener que elegir la interfaz, uso esa anotación
+    //@Qualifier("nombreImpl")
     IAlumnoService service;
-
-    /* @RequestMapping(method = RequestMethod.GET, path = "/api/get") La anotación mapea solicitudes HTTP a métodos específicos
-       Pero es nomenclatura vieja. Se incluyó en Spring y se simplificó a: @Get / Post / Put ... Mapping("/nombreRuta").
-       @GetMapping("/api/get") - Evito el /api/ inicial en todas con el RequestMapping.
-       @GetMapping("/get") - Evito el /get ingresando por todas las requests a la misma ruta /api, pero por distintos verbos.
-    */
 
     @Autowired
     ICursoService serviceC;
 
     @GetMapping
-    public ResponseEntity<List<Alumno>> listarAlumnos() { // Es el único caso que no envío un String, porque envío el listado.
-        //return ResponseEntity.ok(service.listarAlumnos());
+    public ResponseEntity<List<Alumno>> listarAlumnos() {
         return ResponseEntity.status(HttpStatus.OK)
                 .header("Custom-Header", "CustomValue")
                 .body(service.listarAlumnos());
     }
-    
-    /* ResponseEntity: Se utiliza cuando se quiere un control explícito sobre el estado HTTP, los encabezados y el cuerpo de la respuesta.
-            Spring Boot se encarga de establecer el estado HTTP a 200 OK y convertir el objeto en el cuerpo de la respuesta.
-            @GetMapping("/custom")
-            public ResponseEntity<String> customResponse() {
-                return ResponseEntity.status(HttpStatus.CREATED)
-                                     .header("Custom-Header", "CustomValue")
-                                     .body("Custom response body");
-            }
-       De no necesitar eso, se puede utilizar una devolución directa de un objeto: Es más sencillo y se utiliza cuando no se requiere
-       personalizar la respuesta HTTP. 
-            @GetMapping("/alumnos")
-            public List<Alumno> listarAlumnos() {
-                return repo.findAll();
-            }
-    */
 
     @PostMapping
     public ResponseEntity<String> insertarAlumno(@RequestBody Alumno alumno) {
-        /*@RequestBody: Esta anotación indica que un parámetro del método debe ser llenado con el contenido del cuerpo de la solicitud HTTP. 
-        Se utiliza en el controlador para deserializar el JSON o XML recibido en un objeto Java. 
-        Este proceso es específico de la capa web, ya que es donde las solicitudes HTTP son manejadas.
-        Por ende, es mejor, si bien funciona, no repetir la anotación en la capa de servicio.   */
         service.insertarAlumno(alumno);
-        //return new ResponseEntity<>("Alumno ingresado exitosamente", HttpStatus.CREATED);
-        return ResponseEntity.status(HttpStatus.CREATED) // Devuelve una respuesta 201 Created / HttpStatus.CREATED (201): La solicitud ha tenido éxito y se ha creado un nuevo recurso.
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Custom-Header", "CustomValue")
                 .body("Alumno ingresado exitosamente -FD");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> modificarAlumno(@PathVariable("id") Integer id, @RequestBody Alumno alumno) {
-        /*    @PathVariable: Esta anotación se usa para extraer valores de la URL de la solicitud.
-        Es útil en los controladores para acceder a partes variables de la ruta de la solicitud.
-        Lo mismo, por ende, es mejor, si bien funciona, no repetir la anotación en la capa de servicio.  */
         if (service.modificarAlumno(id, alumno)) {
-            // return new ResponseEntity<>("Alumno modificado exitosamente", HttpStatus.OK);
             return ResponseEntity.status(HttpStatus.OK)
                     .header("Custom-Header", "CustomValue")
                     .body("Alumno modificado exitosamente -FD");
         } else {
-            // return new ResponseEntity<>("Alumno no encontrado -Controler", HttpStatus.NOT_FOUND);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND) // Devuelve una respuesta 404 Not Found / HttpStatus.NOT_FOUND (404): El recurso solicitado no se ha encontrado.
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .header("Custom-Header", "CustomValue")
                     .body("Alumno no encontrado -Controler -FD");
         }
@@ -99,12 +60,10 @@ public class MainAlumnoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarAlumno(@PathVariable("id") Integer id) {
         if (service.eliminarAlumno(id)) {
-            // return new ResponseEntity<>("Alumno eliminado existosamente", HttpStatus.OK);
             return ResponseEntity.status(HttpStatus.OK)
                     .header("Custom-Header", "CustomValue")
                     .body("Alumno eliminado exitosamente -FD");
         } else {
-            // return new ResponseEntity<>("Alumno no encontrado", HttpStatus.NOT_FOUND);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .header("Custom-Header", "CustomValue")
                     .body("Alumno no encontrado -FD");
@@ -113,8 +72,6 @@ public class MainAlumnoController {
 
     @GetMapping("/{nombreAlumno}")
     public ResponseEntity<?> findByNombre(@PathVariable("nombreAlumno") String nombreAlumno) {
-        /* Importante! ResponseEntity<?>: El ? indica que el tipo de retorno puede ser cualquier cosa,
-         lo que te permite devolver tanto un Alumno como un String.*/
         Alumno alumnoBuscado = service.findByNombre(nombreAlumno);
         if (alumnoBuscado != null) {
             return ResponseEntity.status(HttpStatus.OK)
@@ -163,14 +120,3 @@ public class MainAlumnoController {
         }
     }
 }
-
-    /* Este endpoint fue específicamente diseñado para agregar cursos a un alumno. Espera que se envíe una lista de IDs de cursos en el cuerpo de la solicitud por medio de POstman.
-    Llamo a agregarCursosAAlumno y le paso el ID del alumno y la lista de IDs de cursos. Se envía una respuesta adecuada dependiendo de si la operación fue exitosa o falló.
-
-    Luego de establecer la relación muchos a muchos, intenté usar el endpoint de actualizar alumno para agregarle los cursos, pero por más que probé de varias formas (con
-    los objetos curso completos, con solo sus ids,...) siempre me dió errores. Para evitar problemas es que se usa un endpoint, propio, con métodos para manejar las relaciones
-    muchos a muchos. Es una práctica recomendada. Estos problemas suelen surgir debido a que Jackson puede tener problemas cuando intenta manejar objetos complejos con relaciones
-    bidireccionales o IDs ya existentes. Tener un endpoint específico permite trabajar con datos más simples, como listas de IDs, y manejar las relaciones de manera explícita 
-    en el código de servicio.
-    También permite que las operaciones en las relaciones se manejen dentro de una transacción, lo que garantiza que si una parte de la operación falla, se reviertan todos 
-    los cambios.*/

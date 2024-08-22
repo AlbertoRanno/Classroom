@@ -27,10 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainAlumnoController {
     // Esta clase contendrá métodos que responderán a solicitudes HTTP (Por ser metodos de un controlador).
 
-    @Autowired
+    @Autowired //Inyecta automáticamente una dependencia en el controlador. Evita escribir:   IAlumnoService service = new AlumnoServiceImpl();
     //Acá se conecta con la interfaz, de modo de poder swichear implementaciones falcilmente. Es altamente desacoplable.
-    //@Qualifier("ServiceImplementation1") De tener que elegir la interfaz, uso esa anotación
+    //@Qualifier("ServiceImplementationCRUD") De tener que elegir la interfaz, uso esa anotación
+    //Sin el @Qualifier, Spring buscará una implementación disponible de IAlumnoService y la inyectará automáticamente.
     IAlumnoService service;
+    
 
     /* @RequestMapping(method = RequestMethod.GET, path = "/api/get") La anotación mapea solicitudes HTTP a métodos específicos
        Pero es nomenclatura vieja. Se incluyó en Spring y se simplificó a: @Get / Post / Put ... Mapping("/nombreRuta").
@@ -49,7 +51,9 @@ public class MainAlumnoController {
                 .body(service.listarAlumnos());
     }
     
-    /* ResponseEntity: Se utiliza cuando se quiere un control explícito sobre el estado HTTP, los encabezados y el cuerpo de la respuesta.
+    /* ResponseEntity: Es una clase propia de Spring. Se utiliza cuando se quiere un control explícito sobre el estado HTTP 
+    ( 200 OK, 201 Created, 404 Not Found, 500 Internal Server Error, etc. Esto es útil para indicar al cliente si la operación fue exitosa o si ocurrió un error),
+    los encabezados (se pueden configurar cosas de seguridad, control de caché, u otra info adicional) y el cuerpo de la respuesta (envío un Objeto, que Jackson pasará a JSON).
             Spring Boot se encarga de establecer el estado HTTP a 200 OK y convertir el objeto en el cuerpo de la respuesta.
             @GetMapping("/custom")
             public ResponseEntity<String> customResponse() {
