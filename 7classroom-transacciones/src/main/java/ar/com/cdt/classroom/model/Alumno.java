@@ -1,6 +1,7 @@
 package ar.com.cdt.classroom.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
@@ -42,7 +43,7 @@ public class Alumno {
     
     @OneToOne(optional = true)
     @JoinColumn(name = "profesor_id")
-    @JsonManagedReference
+    @JsonManagedReference("alumno-profesor")
     private Profesor profesor;
 
     @ManyToMany
@@ -51,6 +52,7 @@ public class Alumno {
             joinColumns = @JoinColumn(name = "alumno_id"),
             inverseJoinColumns = @JoinColumn(name = "curso_id")
     )
-    @JsonManagedReference
+    //@JsonManagedReference("alumno-curso")
+    @JsonIgnore // Evita el ciclo infinito
     private List<Curso> cursos = new ArrayList<>();
 }

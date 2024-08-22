@@ -2,6 +2,7 @@ package ar.com.cdt.classroom.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -29,10 +30,11 @@ public class Curso {
     @ManyToOne
     @JoinColumn(name = "profesor_id")
     //@JsonBackReference
-    @JsonManagedReference
+    @JsonManagedReference("profesor-curso")
     private Profesor profesor;
 
     @ManyToMany(mappedBy = "cursos")
-    @JsonBackReference
+    //@JsonBackReference("alumno-curso")
+    @JsonIgnore // Evita el ciclo infinito
     private List<Alumno> alumnos = new ArrayList<>();
 }
