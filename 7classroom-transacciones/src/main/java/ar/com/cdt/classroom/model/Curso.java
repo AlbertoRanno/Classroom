@@ -29,10 +29,10 @@ public class Curso {
 
     @ManyToOne
     @JoinColumn(name = "profesor_id")
-    //@JsonBackReference
-    @JsonManagedReference("profesor-curso")
+    @JsonBackReference("profesor-curso")
+    //@JsonManagedReference("profesor-curso")
     private Profesor profesor;
-
+    
     @ManyToMany(mappedBy = "cursos")
     //@JsonBackReference("alumno-curso")
     @JsonIgnore // Evita el ciclo infinito
