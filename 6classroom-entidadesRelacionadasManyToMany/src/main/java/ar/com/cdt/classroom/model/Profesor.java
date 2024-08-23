@@ -65,5 +65,17 @@ public class Profesor {
     //@JsonBackReference("profesor-curso")
     //private List<Curso> cursos; => Al ser null, me daba error cuando quería modificar algún profesor que no tenía curso 
     private List<Curso> cursos = new ArrayList<>();  // Inicializa con una lista vacía
-    
+    /*
+    cascade = CascadeType.ALL: Sí, hace que todas las operaciones realizadas sobre un Profesor (guardar, actualizar, eliminar) 
+    se apliquen también a los Cursos relacionados.
+
+    orphanRemoval = true: Sí, hace que si un Curso queda sin un Profesor asociado (por ejemplo, si se elimina el Profesor o se desvincula 
+    el Curso de su Profesor), ese Curso se elimine automáticamente de la base de datos.
+
+    @JsonManagedReference y @JsonBackReference: Puedes colocar @JsonManagedReference en la entidad que desees que contenga la referencia 
+    principal en la serialización JSON. No depende de otras configuraciones; es puramente para controlar cómo se serializan las relaciones
+    en JSON y evitar ciclos de referencia infinita.
+    */
+
 }
+

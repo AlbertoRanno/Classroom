@@ -73,6 +73,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
         return alumnoBuscado;
     }
 
+    //Metodo especial
     @Override
     public void agregarCursosAAlumno(int idAlumno, List<Integer> cursosIds) {
         Alumno alumnoAInscribir = repo.findById(idAlumno)

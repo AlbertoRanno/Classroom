@@ -76,10 +76,21 @@ public class AlumnoServiceImpl implements IAlumnoService {
         return alumnoBuscado;
     }
     
-    /* El siguiente es un metodo que afecta dos entidades, por eso no está en el JpaRepository, sino en la Impl de Serv.
+    /*
+    Este método es especial y no está en JpaRepository, sino en la implementación del servicio.
+    Su propósito es añadir cursos a un alumno, y para lograrlo se necesita un método propio.
+    La razón principal es que, al intentar gestionar esta relación muchos a muchos (Alumno y Curso) desde
+    un PUT genérico, Jackson podría generar errores debido a la complejidad de manejar la tabla intermedia que
+    almacena esta relación. A diferencia de la relación 1 a 1 entre Profesor y Alumno, donde Jackson puede manejar
+    las asociaciones directamente, las relaciones muchos a muchos requieren un manejo explícito. 
+    Por eso, es necesario un método específico como este para evitar problemas de serialización/deserialización.
+    
     Tuve que agregar las línes de: .orElseThrow(() -> new ResourceNotFoundException("Alumno no encontrado"));
     porque findById devuelve un Optional, es decir, que lo puede encontrar, y devolver la entidad o no..
-    Si la devuelve, la asocia a la variable, y sigue normal, sino, el error, corta el hilo con un mensaje. */
+    Si la devuelve, la asocia a la variable, y sigue normal, sino, el error, corta el hilo con un mensaje. 
+
+    getCursos() trae una List, y clear y add son métodos que pertenecen a la lista de cursos (List<Curso>) 
+    */
 
     @Override
     public void agregarCursosAAlumno(int idAlumno, List<Integer> cursosIds) {

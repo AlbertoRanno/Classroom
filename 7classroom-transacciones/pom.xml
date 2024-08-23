@@ -7,8 +7,6 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.0</version>
         <relativePath/> <!-- lookup parent from repository -->
-        <!-- Define el proyecto padre, en este caso el starter parent de Spring Boot, del cual extrae muchas caracteristicas,
-        simplificando las configuraciones   -->
     </parent>
 
     <groupId>ar.com.cdt</groupId>
@@ -26,10 +24,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- Por default, lo basico de Spring: Tomcat, que es el servidor embebido, configura el manejo de solicitudes
-            http y sus respuestas, es decir se encarga de enrutar las solicitudes a los controladores correctos, configura
-            vistas y modelos, configura Jackson para la Serializacion y Deserializacion JSON automatica, lo cual permite
-            comunicarse con otros lenguajes, por ejemplo: Java - Json - Javascript, etc.    -->
         </dependency>
 
         <dependency>
@@ -37,35 +31,29 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-            <!-- Permite los reinicios del servidor de forma automatica al guardar los cambios. Pero acordate de activar
-            en el proyecto el 'Compile on Save' -->
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <!-- Simplifica codigo mediante anotaciones, por ejemplos los getters and setters dentro de una Entidad -->
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <!-- Dependencia para testing - JUnit para hacer pruebas -->
         </dependency>
         
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <!--Simplifica las conexiones a las BBDD-->
         </dependency>
         
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
-            <!--Los drivers de la BBDD MySQL-->
         </dependency>
         
         <dependency>
@@ -78,17 +66,14 @@
 
     <build>
         <plugins>
-            <!-- Sección de configuración de plugins de Maven -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- Plugin de Maven para Spring Boot, facilita la construcción y ejecución del proyecto -->
                 <configuration>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <!-- Excluye Lombok del paquete final -->
                         </exclude>
                     </excludes>
                 </configuration>
