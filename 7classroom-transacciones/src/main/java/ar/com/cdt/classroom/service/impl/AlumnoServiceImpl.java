@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-@Qualifier("ServiceImplementationCRUD") 
+@Qualifier("ServiceImplementationCRUD")
 public class AlumnoServiceImpl implements IAlumnoService {
 
     @Autowired
@@ -72,16 +72,24 @@ public class AlumnoServiceImpl implements IAlumnoService {
         Alumno alumnoBuscado = repo.buscarAlumnoPorNombre(nombreAlumno);
         return alumnoBuscado;
     }
-    
+
     @Override
     public void agregarCursosAAlumno(int idAlumno, List<Integer> cursosIds) {
+        // Obtener el alumno por ID o lanzar una excepción si no se encuentra
         Alumno alumnoAInscribir = repo.findById(idAlumno)
                 .orElseThrow(() -> new ResourceNotFoundException("Alumno no encontrado"));
-        for (int idCurso : cursosIds) { 
+
+        // Limpiar la lista actual de cursos del alumno
+        alumnoAInscribir.getCursos().clear();
+
+        // Añadir los nuevos cursos
+        for (int idCurso : cursosIds) {
             Curso curso = repoC.findById(idCurso)
                     .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado"));
             alumnoAInscribir.getCursos().add(curso);
         }
+        
+        // Guardar los cambios en el repositorio
         repo.save(alumnoAInscribir);
     }
 }

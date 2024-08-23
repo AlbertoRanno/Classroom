@@ -21,7 +21,7 @@ import lombok.Data;
 @Entity //Indica que esta clase es una entidad JPA, lo que significa que se mapeará a una tabla en la base de datos.
 @Data // Proporciona automáticamente getters, setters, toString(), equals(), y hashCode(), gracias a Lombok.
 @Table(name = "Alumno") // Especifica el nombre de la tabla en la base de datos a la que se mapeará esta entidad.
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idAlumno")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idAlumno")
 public class Alumno {
 
     @Id
@@ -72,8 +72,8 @@ public class Alumno {
             joinColumns = @JoinColumn(name = "alumno_id"), // Especifica la columna que guardará la clave foránea que apunta a la entidad Alumno, osea, ésta entidad.
             inverseJoinColumns = @JoinColumn(name = "curso_id") //Especifica la columna que guardará la clave foránea que apunta a la entidad inversa de la relación, osea, Curso
     )
-    //@JsonManagedReference("alumno-curso")
-    @JsonIgnore // Evita el ciclo infinito
+    @JsonManagedReference("alumno-curso")
+    //@JsonIgnore // Evita el ciclo infinito, pero directamente no muestra los cursos a los que está asociado el alumno
     private List<Curso> cursos = new ArrayList<>();
    /* Esta es una propiedad, del modelo Alumno, que guarda una lista de objetos Curso. Esta lista representa todos los cursos en los que un alumno está inscrito,
     estableciendo así la relación muchos a muchos entre Alumno y Curso. En otras palabras, es la propiedad del modelo que define y gestiona la relación muchos a muchos

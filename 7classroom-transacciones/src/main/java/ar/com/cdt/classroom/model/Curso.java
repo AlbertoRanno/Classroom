@@ -35,6 +35,6 @@ public class Curso {
     
     @ManyToMany(mappedBy = "cursos")
     @JsonBackReference("alumno-curso")
-    //@JsonIgnore // Evita el ciclo infinito
+    //@JsonIgnore
     private List<Alumno> alumnos = new ArrayList<>();
 }

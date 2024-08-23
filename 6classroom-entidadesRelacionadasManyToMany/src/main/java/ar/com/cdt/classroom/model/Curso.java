@@ -33,12 +33,12 @@ public class Curso {
     Se usa típicamente en el lado "muchos".*/
     @ManyToOne
     @JoinColumn(name = "profesor_id") //Es la columna que va a guardar la llave foránea de la relación.
-    //@JsonBackReference
-    @JsonManagedReference("profesor-curso")
+    @JsonBackReference("profesor-curso")
+    //@JsonManagedReference("profesor-curso")
     private Profesor profesor;
 
     @ManyToMany(mappedBy = "cursos")
-    //@JsonBackReference("alumno-curso")
-    @JsonIgnore // Evita el ciclo infinito
+    @JsonBackReference("alumno-curso")
+    //@JsonIgnore // Evita el ciclo infinito
     private List<Alumno> alumnos = new ArrayList<>();
 }

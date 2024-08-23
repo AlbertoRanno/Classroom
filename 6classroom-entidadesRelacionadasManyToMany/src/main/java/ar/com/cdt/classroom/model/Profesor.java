@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 
@@ -60,8 +61,9 @@ public class Profesor {
     
     
     @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonManagedReference
-    @JsonBackReference("profesor-curso")
-    private List<Curso> cursos;
+    @JsonManagedReference("profesor-curso")
+    //@JsonBackReference("profesor-curso")
+    //private List<Curso> cursos; => Al ser null, me daba error cuando quería modificar algún profesor que no tenía curso 
+    private List<Curso> cursos = new ArrayList<>();  // Inicializa con una lista vacía
     
 }
