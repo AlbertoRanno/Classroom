@@ -86,7 +86,11 @@ public class AlumnoServiceImpl implements IAlumnoService {
         // Busco al alumno que se va a inscribir
         Alumno alumnoAInscribir = repo.findById(idAlumno)
                 .orElseThrow(() -> new ResourceNotFoundException("Alumno no encontrado"));
+        
+        // Borro la lista actual de cursos del alumno
+        alumnoAInscribir.getCursos().clear(); //De no haber estado esta línea, siempre se agregaban... 
 
+        // Añado los nuevos cursos
         for (int idCurso : cursosIds) { //Recorro la lista de IDs que se envían en el body por Postman
             // Busco el curso donde se va a inscribir, que corresponde a ese ID
             Curso curso = repoC.findById(idCurso)
