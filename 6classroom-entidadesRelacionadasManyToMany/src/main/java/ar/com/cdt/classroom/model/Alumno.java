@@ -72,7 +72,14 @@ public class Alumno {
             joinColumns = @JoinColumn(name = "alumno_id"), // Especifica la columna que guardará la clave foránea que apunta a la entidad Alumno, osea, ésta entidad.
             inverseJoinColumns = @JoinColumn(name = "curso_id") //Especifica la columna que guardará la clave foránea que apunta a la entidad inversa de la relación, osea, Curso
     )
-    @JsonManagedReference("alumno-curso")
+    /************* ERROR ENCONTRADO Y ENTENDIDO:
+    En relaciones ManyToMany, no se usan @JsonManagedReference y @JsonBackReference porque pueden causar problemas en la serialización
+    y deserialización con Jackson. Spring maneja estas relaciones automáticamente sin necesidad de estas anotaciones.
+    Para evitar la recursividad infinita (donde un alumno muestra cursos, los cursos muestran alumnos, y así sucesivamente),
+    se utiliza @JsonIgnore en UNO de los dos modelos.
+    */    
+    
+    //@JsonManagedReference("alumno-curso")
     //@JsonIgnore // Evita el ciclo infinito, pero directamente no muestra los cursos a los que está asociado el alumno
     private List<Curso> cursos = new ArrayList<>();
    /* Esta es una propiedad, del modelo Alumno, que guarda una lista de objetos Curso. Esta lista representa todos los cursos en los que un alumno está inscrito,

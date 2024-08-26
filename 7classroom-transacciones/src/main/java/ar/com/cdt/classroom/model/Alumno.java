@@ -52,7 +52,7 @@ public class Alumno {
             joinColumns = @JoinColumn(name = "alumno_id"),
             inverseJoinColumns = @JoinColumn(name = "curso_id")
     )
-    @JsonManagedReference("alumno-curso")
+    //@JsonManagedReference("alumno-curso")
     //@JsonIgnore
     private List<Curso> cursos = new ArrayList<>();
 }
