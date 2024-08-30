@@ -73,6 +73,21 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.5.0</version>
         </dependency>
+        <!--Springdoc OpenAPI, una biblioteca que genera automáticamente la documentación OpenAPI (anteriormente conocida como Swagger) para las API RESTful desarrolladas con Spring Boot.
+
+        Qué hace esta dependencia:
+        Generación Automática de Documentación: Esta dependencia genera automáticamente la documentación de los endpoints RESTful en formato OpenAPI, lo que permite a los desarrolladores
+        entender y consumir mis APIs de manera más sencilla.
+
+        Interfaz de Usuario (Swagger UI): Incluye una interfaz gráfica basada en Swagger UI que permite a los usuarios interactuar con los endpoints directamente desde un navegador web.
+        Esta interfaz está generalmente disponible en la ruta /swagger-ui.html o /swagger-ui/index.html de mi aplicación.
+
+        Funcionalidades principales:
+        Exploración de Endpoints: Muestra una lista de todos los endpoints de mi API, incluyendo sus métodos HTTP, parámetros, respuestas, etc.
+
+        Pruebas Interactivas: Permite a los usuarios enviar solicitudes directamente desde la interfaz para probar los endpoints.
+
+        Generación de Especificaciones OpenAPI: Genera especificaciones OpenAPI en formato JSON o YAML, que pueden ser exportadas o utilizadas para otras integraciones. -->
         
     </dependencies>
 

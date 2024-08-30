@@ -1,6 +1,7 @@
 package ar.com.cdt.classroom.repository;
 
 import ar.com.cdt.classroom.model.Alumno;
+import ar.com.cdt.classroom.model.Profesor;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -49,6 +50,9 @@ public interface IAlumnoRepository extends JpaRepository<Alumno, Integer> {
     Funcionamiento:
     Cuando llamo al método buscarAlumnoPorNombre("Juan"), el valor "Juan" se pasa como nombreAlumno.
     @Param("nombre") vincula este valor al parámetro :nombre en la consulta JPQL, que se traduce a WHERE a.nombreAlumno = 'Juan'.    */
+    
+    //Creado por nomenclatura, para corregir el metodo de eliminar profesor. OJO que (Profesor profesor) debe coincidir con el modelo.. ACORDATE!
+    public Alumno findByProfesor(Profesor profesor);
 }
 
 /* 

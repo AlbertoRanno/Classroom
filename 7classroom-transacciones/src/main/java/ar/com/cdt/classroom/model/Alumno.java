@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Alumno {
     @Column(name = "email_alumno", length = 45)
     private String emailAlumno;
     
-    @OneToOne(optional = true)
+    @OneToOne(optional = true, cascade = CascadeType.DETACH,orphanRemoval = false)
     @JoinColumn(name = "profesor_id")
     @JsonManagedReference("alumno-profesor")
     private Profesor profesor;

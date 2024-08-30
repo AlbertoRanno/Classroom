@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -55,12 +56,22 @@ public class Alumno {
     llevar a muchos errores.
     */
 
-    @OneToOne(optional = true) // 1 a 1, y No todos los alumnos tienen que relacionarse a un profesor
+    @OneToOne(optional = true, cascade = CascadeType.DETACH, orphanRemoval = false) // **
+    //Correctamente ubicada acá, porque como todas estas indicaciones van solamente del lado del dueño de la relacion (la tabla que guarda el id de la relacion => ALUMNO)
     @JoinColumn(name = "profesor_id") // Especifica la columna en la tabla Alumno que almacenará la clave foránea
     @JsonManagedReference("alumno-profesor")
     private Profesor profesor; // notar que NO es un int profesorId... sino una referencia al objeto Profesor, no solo un ID
+    /* **Nota: Al usar optional=true, permito que un alumno se registre sin necesidad de un profesor asignado. Sin embargo, esto no es suficiente para eliminar
+    un profesor relacionado sin antes desvincularlo del alumno. La columna profesor_id en la tabla Alumno se protege, por lo que primero se debe eliminar 
+    la relación manualmente o utilizar configuraciones de cascada en Spring para manejarlo automáticamente. Con cascade = CascadeType.DETACH, al elimnar un profesor,
+    lo desasocio de forma automática del alumno al que estaba asignado. Con eso sería suficiente, dado que por default,  orphanRemoval = false, por lo tanto no hace
+    falta aclararlo, y ahí determino explícitamente que No se elimine al alumno que queda sin vinculo a un profesor. 
+    OJO => ESTO SOLO, NO ALCANZÓ, ESTIMO PORQUE LOS 3 MODELOS ESTAN RELACIONADOS ENTRE SI, Y ESO LO HACE COMPLEJO. POR LO TANTO, TUVE QUE IMPLEMENTAR UN CAMBIO
+    EN EL METODO ELIMINAR, EN LA IMPL DEL SERV, EN PROFESOR, DE MODO QUE: PRIMERO DESASOCIARA AL ALUMNO, Y LUEGO, DESASOCIARA LOS CURSOS A LOS QUE ESTABA ASIGANADO.
+    PROBABLEMENTE, SI LA ENTIDAD DE CURSOS CON SUS RELACIONES, NO HUBIESE EXISTIDO, TODA ESA PARTE NO HUBIESE HECHO FALTA. 
+    IGUALMENTE, HACER ESO, NO ES CONSIDERADO UNA MALA PRACTICA, PERO QUIZAS SI, MENOS ELEGANTE A MANEJARLO SIN ELLO. */
     
-
+    
     /* Para implementar una relación muchos a muchos entre Curso y Alumno, se suele usar una tabla intermedia que almacene las llaves foráneas de ambas entidades.
     En JPA, para esta tabla intermedia no necesariamente necesito crear un modelo, ya que se puede manejar directamente con anotaciones en las entidades Curso y Alumno. 
     Primero hay que definir la relación muchos a muchos en ambas entidades (Alumno y Curso). Esto se hace usando la anotación @ManyToMany y @JoinTable.
