@@ -68,26 +68,31 @@
             <!--Los drivers de la BBDD MySQL-->
         </dependency>
         
+        <!-- SWAGGER -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.5.0</version>
         </dependency>
-        <!--Springdoc OpenAPI, una biblioteca que genera automáticamente la documentación OpenAPI (anteriormente conocida como Swagger) para las API RESTful desarrolladas con Spring Boot.
-
-        Qué hace esta dependencia:
-        Generación Automática de Documentación: Esta dependencia genera automáticamente la documentación de los endpoints RESTful en formato OpenAPI, lo que permite a los desarrolladores
-        entender y consumir mis APIs de manera más sencilla.
-
-        Interfaz de Usuario (Swagger UI): Incluye una interfaz gráfica basada en Swagger UI que permite a los usuarios interactuar con los endpoints directamente desde un navegador web.
-        Esta interfaz está generalmente disponible en la ruta /swagger-ui.html o /swagger-ui/index.html de mi aplicación.
-
-        Funcionalidades principales:
-        Exploración de Endpoints: Muestra una lista de todos los endpoints de mi API, incluyendo sus métodos HTTP, parámetros, respuestas, etc.
-
-        Pruebas Interactivas: Permite a los usuarios enviar solicitudes directamente desde la interfaz para probar los endpoints.
-
-        Generación de Especificaciones OpenAPI: Genera especificaciones OpenAPI en formato JSON o YAML, que pueden ser exportadas o utilizadas para otras integraciones. -->
+        <!--Springdoc OpenAPI es una biblioteca, anteriormente conocida como Swagger, que se hizo especificamente para las API RESTful desarrolladas con Spring Boot.
+        Esta dependencia, genera automáticamente la documentación de los endpoints RESTful en formato OpenAPI, lo que permite entender y consumir APIs de manera más sencilla.
+        Incluye una interfaz gráfica basada en Swagger UI que permite a los usuarios interactuar con los endpoints directamente desde un navegador web, evitando la necesidad de
+        usar Postman. 
+        Para acceder a la interfaz: Hay que tener corriendo la app, y en el navegador ir a http://localhost:8080/swagger-ui.html - Si cambié el puerto default, cambia acá también.      
+        Funciones principales:
+        **Visualización de Endpoints: Muestra una lista de todos los endpoints disponibles en la API, clasificados por controlador.
+        Cada endpoint incluye información sobre su método (GET, POST, PUT, DELETE), la URL del recurso, y los parámetros necesarios. 
+        Aparentemente el criterio de orden, es por lo más usado según Swagger. Y se podrían llegar a ordenar de otra forma con configs, pero no lo quiero complicar por ahora.
+        **Pruebas Interactivas: Se pueden probar los endpoints directamente desde la interfaz. Swagger genera formularios en los que se puede ingresar los datos necesarios 
+        (parámetros de consulta, cuerpo de la petición, etc.), y luego envía la solicitud a la API.
+        Documentación Automática: Proporciona descripciones detalladas sobre cada endpoint, incluyendo los tipos de respuesta, códigos de estado HTTP, y ejemplos de datos de entrada y salida.
+        Para ver esto hay que ir a http://localhost:8080/v3/api-docs para el formato JSON, o a http://localhost:8080/v3/api-docs.yaml para obtenerlo en formato YAML.
+        Con el archivo JSON o YAML, se pueden usar herramientas como Swagger Editor, SwaggerHub o Redoc para generar documentación formal, que se puede descargar en formatos PDF, HTML, etc.
+        Soporte para Autenticación: Si la API requiere autenticación (JWT, OAuth, etc.), Swagger UI permite ingresar el token necesario para realizar pruebas en endpoints protegidos.
+        Esquemas de Datos: Swagger muestra los modelos (schemas) que definen la estructura de los datos que la API utiliza, para que se pueda entender claramente el formato esperado en las
+        solicitudes y respuestas.
+        Para que la interfaz de Swagger sea accesible para otra persona desde otra pc (fuera de mi red, sino bastaría con reemplazar localhost por la IP local) tendria que subir el proyecto
+        a un servidor como Heroku, y cualquiera con la dirección del servidor podría ingresar. -->
         
     </dependencies>
 
