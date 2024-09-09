@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Qualifier("ProfesorServiceImplementationCRUD")
@@ -49,9 +50,10 @@ public class ProfesorServiceImpl implements IProfesorService {
         }
     }
 
+    @Transactional
     @Override
     public boolean eliminarProfesor(Integer id) {
-        if (repo.existsById(id)) {
+        if (repo.existsById(id)) { //verifico si el profesor existe
             Profesor profesorAEliminar = repo.findById(id).orElseThrow(); //Puedo encontrarlo o no, y al ponerlo así, evito el Optional.
 
             Alumno alumnoQueLoTeniaAsignado = repoA.findByProfesor(profesorAEliminar);
@@ -68,6 +70,12 @@ public class ProfesorServiceImpl implements IProfesorService {
             }
             
             repo.deleteById(id);
+            
+            //Si paso el condicional a True => Simulo un fallo lanzando una excepción
+            if (false) {
+                throw new RuntimeException("Simulación de fallo después de eliminar al profesor");
+            }
+            
             return true;
         } else {
             return false;

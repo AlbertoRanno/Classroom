@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Qualifier("ServiceImplementationCRUD")
@@ -73,7 +74,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
         return alumnoBuscado;
     }
 
-    //Metodo especial
+    @Transactional
     @Override
     public void agregarCursosAAlumno(int idAlumno, List<Integer> cursosIds) {
         Alumno alumnoAInscribir = repo.findById(idAlumno)
@@ -85,6 +86,11 @@ public class AlumnoServiceImpl implements IAlumnoService {
             Curso curso = repoC.findById(idCurso)
                     .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado"));
             alumnoAInscribir.getCursos().add(curso);
+        }
+        
+        // Si lo paso a True, entra al catch del controlador, arroja su msj y se hace el rollback
+        if (false) {
+            throw new RuntimeException("Excepción de prueba para cortar la transacción en el método de agregar cursos a un alumno");
         }
         
         repo.save(alumnoAInscribir);

@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Qualifier("ServiceImplementationCRUD") 
@@ -91,7 +92,9 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
     getCursos() trae una List, y clear y add son métodos que pertenecen a la lista de cursos (List<Curso>) 
     */
-
+    
+    //Metodo especial
+    @Transactional
     @Override
     public void agregarCursosAAlumno(int idAlumno, List<Integer> cursosIds) {
         // Busco al alumno que se va a inscribir
@@ -112,6 +115,25 @@ public class AlumnoServiceImpl implements IAlumnoService {
             //alumnoAInscribir.getCursos() => Devuelve la Lista de cursos
             //add, es un metodo de List, para agregarle el curso a la Lista
         }
+        
+        // Quise lanzar la siguiente excepción, para probar el rollback en este medoto transactional, y si la misma la dejo en true, funciona, se hace el rollback:
+        if (false) {
+            throw new RuntimeException("Excepción de prueba para cortar la transacción en el método de agregar cursos a un alumno");
+        }
+        /* Lo que sí, No se ve este mensaje de error, sino el mensaje: 'Error al agregar cursos.' 
+        Esto sucede ya que el codigo que puse en el controlador, tiene un try-catch, por lo que al lanzar adrede una excepción acá la captura el catch y lanza su msj:
+            @PutMapping("/{idAlumno}/cursos")
+            public ResponseEntity<?> agregarCursosAAlumno(
+                    @PathVariable("idAlumno") int idAlumno,
+                    @RequestBody List<Integer> cursosIds) {
+                try {
+                    service.agregarCursosAAlumno(idAlumno, cursosIds);
+                    return ResponseEntity.status(HttpStatus.OK).body("Cursos agregados correctamente.");
+                } catch (Exception e) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al agregar cursos.");
+                }
+            }
+        De haber manejado el controlador sin el try-catch, se hubiese lanzado ese mensaje.  */
         
         // Guardo los cambios en el repositorio de alumnos
         repo.save(alumnoAInscribir);

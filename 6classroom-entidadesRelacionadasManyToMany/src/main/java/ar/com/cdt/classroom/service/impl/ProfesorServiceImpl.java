@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Qualifier("ProfesorServiceImplementationCRUD")
@@ -48,8 +49,15 @@ public class ProfesorServiceImpl implements IProfesorService {
             // throw new ResourceNotFoundException("Alumno no encontrado -Impl");
         }
     }
-
-    @Override
+    
+    /* Como el procedimiento implica hacer modificaciones en varias tablas, se vuelve importante el uso de transacciones, y estas deben aplicarse en la capa de serviceImpl,
+    dado que acá va el código que afecta a varias tablas. De manera de que si llegó a hacer algún cambio en alguna tabla, y justo se cortó internet, o alguna tabla no se pudo 
+    modificar por X error, se haga un rollback de todos los cambios, manteniendo así una premisa de "o se hace todo ok o no se hace nada". 
+    Para aplicar transacciones, basta con la simple anotación de @Transactional. Que el método sea transaccional significa que, si ocurre un fallo durante cualquier parte del mismo,
+    todo el proceso (modificación de tablas) se deshará automáticamente.*/
+    @Transactional
+    @Override /*El orden de las anotaciones por lo general es indistinto, salvo sean anotaciones personalizadas que interactuen entre sí, pero de otra forma, Spring las ejecuta
+    de manera independiente*/
     public boolean eliminarProfesor(Integer id) {
         if (repo.existsById(id)) {
             /*No podía eliminar un profesor, sin antes eliminar manualmente (POSTMAN) su vínculo a un alumno.
@@ -82,6 +90,16 @@ public class ProfesorServiceImpl implements IProfesorService {
 
             //Elimino al profesor
             repo.deleteById(id);
+            
+            //Si paso el condicional a True => Simulo un fallo lanzando una excepción
+            if (false) {//Podría ser una condición real, pero no se me ocurre...
+                throw new RuntimeException("Simulación de fallo después de eliminar al profesor");
+            }
+            
+            //Si llegara aquí (cosa que con el condicional en True no pasaría, dada la excepción), la transacción se completaría.
+            
+            //El concepto de transacciones podría profundizarse con Propagación, Aislamiento, transacciones anidadas... pero me excede de momento.
+            
             return true;
         } else {
             return false;
