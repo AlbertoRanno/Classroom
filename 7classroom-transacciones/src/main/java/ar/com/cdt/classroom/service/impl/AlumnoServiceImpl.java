@@ -74,6 +74,9 @@ public class AlumnoServiceImpl implements IAlumnoService {
         return alumnoBuscado;
     }
 
+    /* En 1a1 Jackson permite editar la relación directamente del PUT, pero en Muchos a Muchos, No 
+    (dado que tendría que manipular, a diferencia de la relación 1a1, una tabla intermedia),
+    por lo que hace falta un método específico: */
     @Transactional
     @Override
     public void agregarCursosAAlumno(int idAlumno, List<Integer> cursosIds) {

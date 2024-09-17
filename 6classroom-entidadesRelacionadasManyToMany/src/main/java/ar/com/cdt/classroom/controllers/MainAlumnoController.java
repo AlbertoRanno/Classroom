@@ -28,7 +28,7 @@ public class MainAlumnoController {
     // Esta clase contendrá métodos que responderán a solicitudes HTTP (Por ser metodos de un controlador).
 
     @Autowired //Inyecta automáticamente una dependencia en el controlador. Evita escribir:   IAlumnoService service = new AlumnoServiceImpl();
-    //Acá se conecta con la interfaz, de modo de poder swichear implementaciones falcilmente. Es altamente desacoplable.
+    //Acá se conecta con la interfaz (sí, interfaz:IAlumnoService service;) , de modo de poder swichear implementaciones falcilmente. Es altamente desacoplable.
     //@Qualifier("ServiceImplementationCRUD") De tener que elegir la interfaz, uso esa anotación
     //Sin el @Qualifier, Spring buscará una implementación disponible de IAlumnoService y la inyectará automáticamente.
     IAlumnoService service;
@@ -174,7 +174,7 @@ public class MainAlumnoController {
     Luego de establecer la relación muchos a muchos, intenté usar el endpoint de actualizar alumno para agregarle los cursos, pero por más que probé de varias formas (con
     los objetos curso completos, con solo sus ids,...) siempre me dió errores. Para evitar problemas es que se usa un endpoint, propio, con métodos para manejar las relaciones
     muchos a muchos. Es una práctica recomendada. Estos problemas suelen surgir debido a que Jackson puede tener problemas cuando intenta manejar objetos complejos con relaciones
-    bidireccionales o IDs ya existentes. Tener un endpoint específico permite trabajar con datos más simples, como listas de IDs, y manejar las relaciones de manera explícita 
-    en el código de servicio.
+    bidireccionales o IDs ya existentes, o principalmente, tablas intermedias. 
+    Tener un endpoint específico permite trabajar con datos más simples, como listas de IDs, y manejar las relaciones de manera explícita en el código de servicio.
     También permite que las operaciones en las relaciones se manejen dentro de una transacción, lo que garantiza que si una parte de la operación falla, se reviertan todos 
     los cambios.*/

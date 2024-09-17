@@ -14,9 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Qualifier("ServiceImplementationCRUD") 
-//De tener que elegir ésta, de entre varias interfaces, cuando hago el autowired en el controlador, mediante @Qualifier("ServiceImplementationCRUD") la llamo
+//De tener que elegir ésta, de entre varias implementaciones, cuando hago el autowired en el controlador, mediante @Qualifier("ServiceImplementationCRUD") la llamo
 public class AlumnoServiceImpl implements IAlumnoService {
 
+    //Cuando los metodos son complejos y/o involucran cruces entre tablas, las implementaciones de la capa de servicio son el lugar ideal para desarrollarlos.
     @Autowired
     IAlumnoRepository repo;
 
@@ -86,7 +87,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
     las asociaciones directamente, las relaciones muchos a muchos requieren un manejo explícito. 
     Por eso, es necesario un método específico como este para evitar problemas de serialización/deserialización.
     
-    Tuve que agregar las línes de: .orElseThrow(() -> new ResourceNotFoundException("Alumno no encontrado"));
+    Tuve que agregar las líneas de: .orElseThrow(() -> new ResourceNotFoundException("Alumno no encontrado"));
     porque findById devuelve un Optional, es decir, que lo puede encontrar, y devolver la entidad o no..
     Si la devuelve, la asocia a la variable, y sigue normal, sino, el error, corta el hilo con un mensaje. 
 
@@ -94,7 +95,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
     */
     
     //Metodo especial
-    @Transactional
+    @Transactional //***
     @Override
     public void agregarCursosAAlumno(int idAlumno, List<Integer> cursosIds) {
         // Busco al alumno que se va a inscribir
@@ -138,5 +139,12 @@ public class AlumnoServiceImpl implements IAlumnoService {
         // Guardo los cambios en el repositorio de alumnos
         repo.save(alumnoAInscribir);
     }
+    
+    /***    TRANSACCION
+    Una transacción en programación es un conjunto de operaciones que deben ejecutarse de manera completa o no ejecutarse en absoluto. 
+    Si una parte falla, se deshace todo lo que se haya hecho hasta ese punto, garantizando la integridad de los datos.
 
+    La anotación @Transactional en Spring gestiona esto automáticamente. 
+    Marca un método o clase para que todas las operaciones dentro de él se ejecuten como una única transacción. 
+    Si alguna operación falla, se realiza un rollback (se revierten los cambios).   */
 }

@@ -94,6 +94,55 @@
         Para que la interfaz de Swagger sea accesible para otra persona desde otra pc (fuera de mi red, sino bastaría con reemplazar localhost por la IP local) tendria que subir el proyecto
         a un servidor como Heroku, y cualquiera con la dirección del servidor podría ingresar. -->
         
+        
+        <!--SPRING SECURITY
+        Es un framework que protege las apps asegurando que solo usuarios autorizados puedan acceder a recursos, y restringiendo qué acciones pueden realizar.
+        Autenticación: Verifica la identidad de un usuario.
+        Autorización: Controla qué usuarios tienen acceso a qué recursos.
+        Protección contra amenazas comunes: Como CSRF, ataques de fuerza bruta, etc.
+        La siguiente dependencia contiene lo básico para proteger los endpoints de la API.
+        Con ella pide usuario y password antes de mostrar Swagger, tira Unauthorized al tratar de acceder por PUT POST DELETE, pero muestra los GET. Esto es normal, porque
+        para ocultarlos ya hay que entrar a configurar.-->
+        <dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+        <!--
+        La distinción entre Servlet y Reactive en el contexto de aplicaciones web y APIs se refiere a cómo se manejan las solicitudes y respuestas, 
+        y a las arquitecturas subyacentes que utilizan.
+
+        Servlet
+        
+        Qué es:
+        Servlet es una tecnología de Java utilizada para manejar solicitudes y respuestas en aplicaciones web basadas en el modelo de servlet-container. 
+        Este modelo sigue una arquitectura sincrónica y basada en hilos, donde cada solicitud se maneja en un hilo separado.
+        
+        Cómo se maneja:
+        Cada solicitud es atendida por un hilo independiente del servidor. El servidor asigna un hilo para cada solicitud, lo que puede llevar a problemas 
+        de escalabilidad bajo alta carga si hay muchos usuarios concurrentes.
+        
+        Cómo saber si tu app es Servlet:
+        Revisa las dependencias en tu pom.xml o build.gradle. Si ves dependencias relacionadas con Spring MVC (por ejemplo, spring-boot-starter-web), es
+        probable que tu aplicación esté basada en el modelo Servlet.
+        La configuración por defecto en Spring Boot sin configuraciones específicas para Reactive es generalmente basada en Servlet.
+        
+        
+        Tu aplicación Servlet utiliza el modelo tradicional de manejo de solicitudes y respuestas web basado en hilos. Esto implica:
+
+        Modelo Sincrónico: Cada solicitud entrante es gestionada por un hilo independiente. La solicitud se procesa de manera secuencial, 
+        y el hilo permanece bloqueado hasta que se complete la respuesta.
+
+        Escalabilidad: Bajo alta demanda, este modelo puede generar problemas de escalabilidad, ya que cada solicitud requiere un hilo separado. 
+        Si hay muchas solicitudes concurrentes, puede llegar a agotarse el pool de hilos.
+
+        Framework: Tu aplicación probablemente usa Spring MVC, el cual está basado en el modelo Servlet y es ideal para aplicaciones que no 
+        necesiten manejar miles de conexiones simultáneas o flujos reactivos.
+
+        Implicaciones:
+        Fácil de entender y mantener para la mayoría de las aplicaciones web tradicionales.
+        Es posible que consuma más recursos (hilos) bajo alta carga en comparación con una aplicación Reactive.
+        Esto se adapta bien para aplicaciones web con carga moderada, donde el modelo sincrónico es suficiente para el manejo de solicitudes.
+        -->
     </dependencies>
 
     <build>

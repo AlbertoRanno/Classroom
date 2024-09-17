@@ -111,12 +111,4 @@ Comparación de las formas posibles:
 Conclusión:  Ambos métodos logran lo mismo, pero con enfoques diferentes. El primero es más simple y automático,
     mientras que el segundo da más control y flexibilidad sobre la consulta. Usar @Query es útil cuando se necesita
     hacer consultas más complejas que no pueden ser expresadas simplemente con nombres de métodos.
-
-Avances:
-    *ResponseEntity: forma general para manejar estados, headers y body en todos los casos de la misma forma
-    *Como crear un metodo, distinto, a los que ofrece JpaRepository. Y sus dos opciones, por nomenclatura y por la anotación Query
-    
-    muchos a muchos
-    transacciones
-    swagger
     */

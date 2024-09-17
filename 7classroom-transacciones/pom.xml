@@ -17,6 +17,7 @@
 
     <properties>
         <java.version>21</java.version>
+        <spring-security.version>6.3.3</spring-security.version>
     </properties>
 
     <dependencies>
@@ -61,7 +62,14 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.5.0</version>
         </dependency>
+        <!--    Interfaz: http://localhost:8080/swagger-ui.html 
+                Documentación: http://localhost:8080/v3/api-docs    -->
         
+        <dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+
     </dependencies>
 
     <build>
