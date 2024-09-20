@@ -1,0 +1,52 @@
+# Directorios de construcción
+/target/
+/out/
+/build/
+
+# Archivos de configuración
+*.iml
+.classpath
+.project
+.settings/
+
+# Archivos de log
+*.log
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Dependencias locales
+/lib/
+*.jar
+*.war
+
+# Archivos de configuración de la base de datos
+*.db
+
+# Archivos específicos de IntelliJ IDEA
+.idea/
+*.iws
+*.ipr
+
+# Archivos específicos de Eclipse
+.metadata/
+bin/
+tmp/
+
+# Archivos específicos de NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Archivos generados por Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Archivos generados por Gradle
+.gradle/
+build/
